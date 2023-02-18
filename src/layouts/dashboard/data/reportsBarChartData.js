@@ -1,19 +1,26 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
+import * as XLSX from 'xlsx';
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+const loadExcelData = () => {
+  const xlsxFile = require('./1234.xlsx');
+  fetch(xlsxFile)
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => {
+      const binaryData = new Uint8Array(arrayBuffer);
+      const workbook = XLSX.read(binaryData, { type: 'binary' });
+      const sheetName = 'License 1';
+      const worksheet = workbook.Sheets[sheetName];
+      const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      let count = 0;
+      sheetData.forEach((row) => {
+        count++;
+      });
+      // return count;
+    });
+  return 20 // temp line
+};
 
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
 
 export default {
-  labels: ["M", "T", "W", "T", "F", "S", "S"],
-  datasets: { label: "Sales", data: [50, 20, 10, 22, 50, 10, 40] },
+  labels: ["2009", "2010", "2011", "2012", "2013", "2014", "2015"],
+  datasets: { label: "Sales", data: [50, 20, 10, 22, 50, 10, loadExcelData()] },
 };
